@@ -4,51 +4,316 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday!</title>
+    <!-- Font Styles matching the aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #0b0326;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container designed for Mobile Screens */
+        .app-container {
+            width: 100%;
+            max-width: 450px;
             height: 100vh;
-            margin: 0;
-            color: #fff;
+            position: relative;
+            background: linear-gradient(180deg, #110738 0%, #07021b 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* View Control */
+        .view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            animation: fadeIn 0.6s ease-in-out forwards;
         }
-        .card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            max-width: 85%;
+        .view.active {
+            display: flex;
         }
-        h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        p { font-size: 1.2rem; line-height: 1.5; }
-        .btn {
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 1rem;
-            border-radius: 25px;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Aesthetic Text */
+        .elegant-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #e3d5ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(227, 213, 255, 0.4);
+        }
+        .serif-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin-bottom: 40px;
+        }
+
+        /* Interactive Envelope */
+        .envelope-wrapper {
             cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.3s ease;
+            margin-bottom: 30px;
+        }
+        .envelope-wrapper:hover {
+            transform: scale(1.05);
+        }
+        .envelope {
+            width: 180px;
+            height: 120px;
+            background: #4c669f;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 60px 90px 0 90px;
+            border-color: #3b5284 transparent transparent transparent;
+        }
+        .seal {
+            width: 35px;
+            height: 35px;
+            background: #7ca1f4;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(124,161,244,0.6);
+        }
+        .hint-text {
+            font-size: 0.9rem;
+            color: #8fa0cc;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        /* Menu Icons Options Layout */
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 80%;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #7ca1f4;
+            transform: translateX(5px);
+        }
+        .menu-icon {
+            font-size: 1.8rem;
+            margin-right: 20px;
+        }
+        .menu-label {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Dynamic Content Cards */
+        .content-card {
+            background: #ffffff;
+            color: #222222;
+            width: 90%;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+        .card-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: #3b5284;
+            margin-bottom: 15px;
+        }
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555555;
+        }
+
+        /* Polaroid / Photo Styling */
+        .photo-frame {
+            background: white;
+            padding: 12px 12px 25px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transform: rotate(-3deg);
+            width: 80%;
+            margin-bottom: 35px;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .photo-frame.alt {
+            transform: rotate(4deg);
+        }
+
+        /* Video Wrapper Box */
+        .video-box {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .video-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Universal Action Buttons */
+        .btn-back {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .btn-back:hover {
+            background: #ffffff;
+            color: #07021b;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>🎉 Happy Birthday! 🎂</h1>
-        <!-- Customize the message below -->
-        <p>Wishing you a spectacular day filled with joy, laughter, and everything you love!</p> 
-        <button class="btn" onclick="alert('🎁 Surprise! You are the absolute best! Enjoy your day! ❤️')">Click for a Message</button>
+    <div class="app-container">
+
+        <!-- SCREEN 1: THE ENVELOPE INTRO -->
+        <div id="view-intro" class="view active">
+            <h1 class="elegant-title">Press the Envelope</h1>
+            <div class="envelope-wrapper" onclick="navigateTo('view-menu')">
+                <div class="envelope">
+                    <div class="seal"></div>
+                </div>
+            </div>
+            <p class="hint-text">tap to lanjut</p>
+        </div>
+
+        <!-- SCREEN 2: MAIN CHOICE MENU -->
+        <div id="view-menu" class="view">
+            <h2 class="serif-title">Choose the Surprise</h2>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="navigateTo('view-journey')">
+                    <span class="menu-icon">📷</span>
+                    <span class="menu-label">Journey</span>
+                </div>
+                <div class="menu-item" onclick="navigateTo('view-moment')">
+                    <span class="menu-icon">⏰</span>
+                    <span class="menu-label">Moment</span>
+                </div>
+                <div class="menu-item" onclick="navigateTo('view-playlist')">
+                    <span class="menu-icon">🎵</span>
+                    <span class="menu-label">Playlist</span>
+                </div>
+                <div class="menu-item" onclick="navigateTo('view-life')">
+                    <span class="menu-icon">🎁</span>
+                    <span class="menu-label">Life</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU SUB-SCREEN: JOURNEY (Photo Gallery) -->
+        <div id="view-journey" class="view">
+            <!-- Replace the src URL with your own link later if you want -->
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=500" alt="Birthday Celebration">
+            </div>
+            <button class="btn-back" onclick="navigateTo('view-menu')">◀ BACK</button>
+        </div>
+
+        <!-- MENU SUB-SCREEN: MOMENT (The Message Card) -->
+        <div id="view-moment" class="view">
+            <div class="content-card">
+                <h3 class="card-name">Bernadya Alisya</h3>
+                <p class="card-text">
+                    "Happy Birthday! With you, even the simplest days feel incredibly special. Thank you for filling my life with so much light and endless love. Wishing you the happiest year yet, my constant, my everything."
+                </p>
+            </div>
+            <button class="btn-back" onclick="navigateTo('view-menu')">◀ BACK</button>
+        </div>
+
+        <!-- MENU SUB-SCREEN: PLAYLIST (YouTube Video Embed) -->
+        <div id="view-playlist" class="view">
+            <div class="video-box">
+                <!-- Replace the YouTube code 'dQw4w9WgXcQ' with your custom video code if needed -->
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+            <button class="btn-back" onclick="navigateTo('view-menu')">◀ BACK</button>
+        </div>
+
+        <!-- MENU SUB-SCREEN: LIFE (Extra Photo/Gift Area) -->
+        <div id="view-life" class="view">
+            <div class="photo-frame alt">
+                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=500" alt="Joyful Memories">
+            </div>
+            <button class="btn-back" onclick="navigateTo('view-menu')">◀ BACK</button>
+        </div>
+
     </div>
 
+    <!-- Screen Switching Logic Control JavaScript -->
+    <script>
+        function navigateTo(viewId) {
+            // Hide all current views
+            const views = document.querySelectorAll('.view');
+            views.forEach(view => view.classList.remove('active'));
+
+            // Show selected view
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
